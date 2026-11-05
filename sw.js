@@ -1,5 +1,5 @@
 // 軍棋大師 離線快取：更新遊戲時把版本號 +1
-const CACHE = 'hexwar-v10.1';
+const CACHE = 'hexwar-v10.2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
