@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>軍棋大師 搬家了</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#111714">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="軍棋大師">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+html,body{margin:0;min-height:100%;background:#111714;color:#e8eadf;font-family:"PingFang TC","Heiti TC","Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:420px;margin:0 auto;padding:max(32px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(32px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));text-align:center}
+img{width:88px;height:88px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+h1{font-family:"Songti TC","PingFang TC",serif;color:#e9c24a;font-size:26px;letter-spacing:.1em;margin:14px 0 6px}
+.u{margin:16px 0 8px;padding:12px;border-radius:12px;background:#1f2823;border:1px solid #3a463f;font-size:16px;word-break:break-all;user-select:all;-webkit-user-select:all}
+.b{display:block;width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:13px;border-radius:12px;border:1px solid #3a463f;background:#1f2823;color:#e8eadf;text-decoration:none;margin-top:10px}
+.b.p{background:#e9c24a;color:#1a1a12;border-color:#e9c24a;font-weight:700}
+ol{text-align:left;font-size:14px;line-height:1.8;color:#cfd6c6;padding-left:22px;margin:20px 0 0}
+p{font-size:14px;line-height:1.7;color:#a9b0a0}
+#cd{font-size:13px;color:#a9b0a0;min-height:18px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<img src="icon-192.png" alt="">
+<h1>軍棋大師搬家了</h1>
+<p>遊戲已經搬到新網址。用同一個 Google 帳號登入，英雄卡、抽獎券與雲端存檔都還在。</p>
+<div class="u" id="u"></div>
+<a class="b p" id="go" href="#">前往新網址</a>
+<button class="b" id="cp" type="button">複製新網址</button>
+<div id="cd"></div>
+<ol id="st">
+<li>用 <b>Safari</b> 打開新網址（主畫面的舊圖示請先複製網址，再貼到 Safari）</li>
+<li>點下方「分享」→「加入主畫面」</li>
+<li>長按舊的軍棋大師圖示 →「移除 App」</li>
+<li>有用書籤的話，請把書籤改成新網址</li>
+</ol>
+</main>
+<script src="moved.js"></script>
+<script>
+(function(){
+  var N = window.NEW_URL || 'https://qjunqi.pages.dev/';
+  var sub = location.pathname.split('/').filter(Boolean).slice(1).join('/');   // /Qjunqi/privacy.html → privacy.html
+  var to = N + (/^privacy(\.html)?$/.test(sub) ? 'privacy.html' : '');
+  document.getElementById('u').textContent = N;
+  document.getElementById('go').href = to;
+  document.getElementById('cp').onclick = function(){
+    var b = this;
+    function ok(){ b.textContent = '已複製'; setTimeout(function(){ b.textContent = '複製新網址'; }, 2000); }
+    if (navigator.clipboard) navigator.clipboard.writeText(N).then(ok, sel); else sel();
+    function sel(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('u')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  };
+  if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ r.unregister(); }); }).catch(function(){});
+  var standalone = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  if (!standalone) {                       // 瀏覽器打開（書籤）：5 秒後自動前往；主畫面圖示則停在說明頁
+    var n = 5, cd = document.getElementById('cd');
+    (function tick(){ if (n <= 0) { location.replace(to); return; } cd.textContent = n + ' 秒後自動前往新網址'; n--; setTimeout(tick, 1000); })();
+  }
+})();
+</script>
+</body>
+</html>
